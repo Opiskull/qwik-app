@@ -1,5 +1,12 @@
 import { component$, useStore } from "@builder.io/qwik";
-import { DocumentHead } from "@builder.io/qwik-city";
+import { DocumentHead, RequestHandler } from "@builder.io/qwik-city";
+
+export const onGet: RequestHandler = ({ request, response }) => {
+  const cookie = request.headers.get("cookie");
+  if (!cookie || !cookie.includes("isLoggedIn=1")) {
+    throw response.redirect("/login");
+  }
+};
 
 export default component$(() => {
   const state = useStore({
